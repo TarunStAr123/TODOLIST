@@ -5,8 +5,12 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    @apply transition-colors duration-300 ease-in-out;
+  }
+
   body {
-    @apply bg-slate-50 text-slate-800 antialiased font-sans;
+    @apply bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 antialiased font-sans;
   }
 
   * {
@@ -15,8 +19,6 @@
 }
 
 @layer utilities {
-
-  /* Task animations */
   @keyframes taskFadeIn {
     from {
       opacity: 0;

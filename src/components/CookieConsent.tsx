@@ -5,29 +5,26 @@ export default function CookieConsent() {
     const [isRendered, setIsRendered] = useState(true);
 
     useEffect(() => {
-        // Show after 1.5 seconds for dramatic effect
-        const timer = setTimeout(() => {
-            setIsVisible(true);
-        }, 1500);
+        const timer = setTimeout(() => setIsVisible(true), 1500);
         return () => clearTimeout(timer);
     }, []);
 
     const handleClose = () => {
         setIsVisible(false);
-        setTimeout(() => setIsRendered(false), 300); // Wait for transition
+        setTimeout(() => setIsRendered(false), 300);
     };
 
     if (!isRendered) return null;
 
     return (
         <div
-            className={`fixed bottom-6 right-6 z-50 p-6 bg-white rounded-2xl shadow-2xl border border-slate-100 max-w-sm transition-all duration-500 ease-out transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'}`}
+            className={`fixed bottom-6 right-6 z-50 p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl dark:shadow-slate-900/50 border border-slate-100 dark:border-slate-700 max-w-sm transition-all duration-500 ease-out transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'}`}
         >
             <div className="flex items-start justify-between mb-3">
-                <h3 className="font-bold text-slate-900 border-l-4 border-primary pl-3 -ml-6 text-lg">We respect your privacy</h3>
+                <h3 className="font-bold text-slate-900 dark:text-white border-l-4 border-primary pl-3 -ml-6 text-lg">We respect your privacy</h3>
             </div>
 
-            <p className="text-sm text-slate-600 mb-6 leading-relaxed">
+            <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
                 We use cookies to enhance your browsing experience, serve personalized ads or content, and analyze our traffic.
             </p>
 
@@ -40,7 +37,7 @@ export default function CookieConsent() {
                 </button>
                 <button
                     onClick={handleClose}
-                    className="flex-1 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold rounded-xl transition-all active:scale-95"
+                    className="flex-1 px-4 py-2.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-sm font-semibold rounded-xl transition-all active:scale-95"
                 >
                     Decline
                 </button>
@@ -48,3 +45,4 @@ export default function CookieConsent() {
         </div>
     );
 }
+

@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface MiniCalendarProps {
-    selectedDate: string;          // YYYY-MM-DD
+    selectedDate: string;
     onDateSelect: (date: string) => void;
-    taskDates: Set<string>;        // dates that have ≥1 task
+    taskDates: Set<string>;
 }
 
 const DAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
@@ -21,7 +21,6 @@ export default function MiniCalendar({ selectedDate, onDateSelect, taskDates }: 
     const today = new Date();
     const todayYMD = toYMD(today.getFullYear(), today.getMonth(), today.getDate());
 
-    // Initialise the viewed month from selectedDate
     const initViewed = () => {
         const [y, m] = selectedDate.split('-').map(Number);
         return { year: y, month: m - 1 };
@@ -32,13 +31,11 @@ export default function MiniCalendar({ selectedDate, onDateSelect, taskDates }: 
         setViewed(({ year, month }) =>
             month === 0 ? { year: year - 1, month: 11 } : { year, month: month - 1 }
         );
-
     const nextMonth = () =>
         setViewed(({ year, month }) =>
             month === 11 ? { year: year + 1, month: 0 } : { year, month: month + 1 }
         );
 
-    // Calendar grid: pad with empty cells from previous month
     const firstDay = new Date(viewed.year, viewed.month, 1).getDay();
     const daysInMonth = new Date(viewed.year, viewed.month + 1, 0).getDate();
 
@@ -48,34 +45,34 @@ export default function MiniCalendar({ selectedDate, onDateSelect, taskDates }: 
     ];
 
     return (
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 w-full select-none">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm p-4 w-full select-none transition-colors duration-300">
             {/* Month header */}
             <div className="flex items-center justify-between mb-4">
                 <button
                     onClick={prevMonth}
                     aria-label="Previous month"
-                    className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-primary transition-all duration-150 active:scale-90"
+                    className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-primary dark:hover:text-primary transition-all duration-150 active:scale-90"
                 >
                     <ChevronLeft size={16} strokeWidth={2.5} />
                 </button>
 
-                <h2 className="text-sm font-bold text-slate-800 tracking-tight">
+                <h2 className="text-sm font-bold text-slate-800 dark:text-slate-100 tracking-tight">
                     {MONTHS[viewed.month]} {viewed.year}
                 </h2>
 
                 <button
                     onClick={nextMonth}
                     aria-label="Next month"
-                    className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-primary transition-all duration-150 active:scale-90"
+                    className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-primary dark:hover:text-primary transition-all duration-150 active:scale-90"
                 >
                     <ChevronRight size={16} strokeWidth={2.5} />
                 </button>
             </div>
 
-            {/* Day-of-week labels */}
+            {/* Day labels */}
             <div className="grid grid-cols-7 mb-1">
                 {DAYS.map((d) => (
-                    <div key={d} className="text-center text-[10px] font-bold text-slate-400 uppercase tracking-wider py-1">
+                    <div key={d} className="text-center text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider py-1">
                         {d}
                     </div>
                 ))}
@@ -103,15 +100,14 @@ export default function MiniCalendar({ selectedDate, onDateSelect, taskDates }: 
                 ${isSelected
                                     ? 'bg-primary text-white shadow-md shadow-primary/30'
                                     : isToday
-                                        ? 'bg-primary/10 text-primary font-bold'
-                                        : 'text-slate-700 hover:bg-slate-100 hover:text-primary'
+                                        ? 'bg-primary/10 dark:bg-primary/20 text-primary font-bold'
+                                        : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-primary dark:hover:text-primary'
                                 }
               `}
                         >
                             {day}
-                            {/* Task dot indicator */}
                             {hasTask && !isSelected && (
-                                <span className={`absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${isToday ? 'bg-primary' : 'bg-slate-400'}`} />
+                                <span className={`absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${isToday ? 'bg-primary' : 'bg-slate-400 dark:bg-slate-500'}`} />
                             )}
                             {hasTask && isSelected && (
                                 <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white/70" />
@@ -121,7 +117,7 @@ export default function MiniCalendar({ selectedDate, onDateSelect, taskDates }: 
                 })}
             </div>
 
-            {/* "Today" shortcut */}
+            {/* Today shortcut */}
             {selectedDate !== todayYMD && (
                 <button
                     onClick={() => {
